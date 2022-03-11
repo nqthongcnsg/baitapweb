@@ -1,0 +1,199 @@
+
+<html >
+<head>
+    <script src="jquery-3.6.0.min.js"></script>
+    <style>
+        table{
+           width: 900px;;
+        }
+        table td:first-child{
+            width: 100px;
+        }
+        table td{
+            border: 2px solid green;
+            border-radius: 5px;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <a href="../index.html">Back</a>
+   <input type="button" onclick="F()" value="Show"></br>
+   <div value="id">id</div>
+   <input type="text" id="id"></br>
+   <div value="name">name</div>
+   <input type="text" id="name"></br>
+   <div value="avatar">avatar</div>
+   <input type="file" name="img"></br>
+   <input type="button" value="add" id="add" onclick="insert()" >
+   <div id="a"></div>
+   
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>TIME</th>
+                <th>NAME</th>
+                
+                <th>ACTIVE </th>
+            </tr>
+        </thead>
+        <tbody>
+            <table id="list"></table>
+        </tbody>
+    </table>
+    <p></p>
+    <script>
+        var id=0;
+        function F()
+            {
+                $.ajax( 
+                    {
+                        url:'https://62136165f43692c9c602702e.mockapi.io/data',
+                        type :'GET',
+                        dataType:'json',
+                        
+                        success:function(dataReturn)
+                        { 
+                            console.log(dataReturn);
+                            var html = dataReturn.map(item=>{
+                                
+                                id=item.id;
+                                return `<tr>
+                                    <td scope="row"> ${item.id}</td>
+                                    <td scope="row"> ${item.createdAt}</td>
+                                    <td>${item.name}</td>
+                                    <td> <img src=${item.avatar}/></td>
+                                    <td> <input type="button" value="Xoa" onclick="add(${item.id})"/> 
+                                        <input type="button" value="Sua" onclick="updat(${item.id})"/> 
+
+                                    </td>
+                                </tr>`
+                            }
+
+                            );
+                            document.getElementById("list").innerHTML=html;
+
+                            
+                            
+                         }  
+                    }
+                    );
+                
+
+                                     
+                
+            }
+            function add(valwe){
+                $.ajax( 
+                    {
+                        url:'https://62136165f43692c9c602702e.mockapi.io/data',
+                        type :'GET',
+                        dataType:'json',
+                        
+                        success:function(dataReturn)
+                        { 
+                           
+                           
+                           dataReturn.splice(valwe-1,1);
+                           var html = dataReturn.map(item=>{
+                                id=item.id;
+                                return `<tr>
+                                    <td scope="row"> ${item.id}</td>
+                                    <td scope="row"> ${item.createdAt}</td>
+                                    <td>${item.name}</td>
+                                    <td> <img src=${item.avatar}/></td>
+                                    <td> <input type="button" value="Xoa" onclick="del(${item.id})"/> 
+                                        <input type="button" value="Sua" /> 
+
+                                    </td>
+                                </tr>`
+                            }
+
+                            );
+                            document.getElementById("list").innerHTML=html;
+                            alert("thanfh cong");
+
+
+                           
+
+
+                            
+                            
+                         }  
+                    }
+                    );
+            }
+            function del(value){
+            
+                $.ajax({ url: 'https://62136165f43692c9c602702e.mockapi.io/data' + value, type: 'DELETE', success: function(result) {
+                                    alert("aaa");
+                                }});
+               
+
+            }
+            function insert(){
+                var id=document.getElementById("id").value;
+                var name=document.getElementById("name").value;
+                var avatar=document.getElementById("avatar").value;
+                alert(id);
+                $.ajax({
+                    type:"POST",
+                    url:'https://62136165f43692c9c602702e.mockapi.io/data',
+                    data:[id,name,avatar],
+                    success:function(){
+                        alert("Theem thanh cong");
+                    }
+
+    
+                })
+
+            }
+            function updat(id){
+                $.ajax( 
+                    {
+                        url:'https://62136165f43692c9c602702e.mockapi.io/data',
+                        type :'GET',
+                        dataType:'json',
+                        
+                        success:function(dataReturn)
+                        { 
+                           
+                           var a;
+                          
+                           for(i=0;i<41;i++)
+                           {
+                               if(dataReturn[i].id==id)
+                               {
+                                   a=dataReturn[i];
+
+                               }
+
+                           }
+                           console.log(a);
+                          alert(a.id); 
+                         $('#id:text').val(a.id);
+                         $('#name:text').val(a.name);
+                         $('#avatar:text').val(a.avatar);
+                       
+                           
+
+
+                           
+
+
+                            
+                            
+                         }  
+                    }
+                    );
+
+            }
+        
+
+    </script>
+    
+</body>
+</html>

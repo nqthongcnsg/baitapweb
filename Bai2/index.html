@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+    <title>Document</title>
+</head>
+
+<body onload="F()" align="center">
+    <a href="../index.html">back</a>
+    <table class="tableToExcel" id="table1" data-tableName="Test Table 1" border="1">
+        <tr>
+            <td>Mã Sãn Phẩm</td>
+            <td>Tên Sãn Phẩm</td>
+            <td>Giá cũ</td>
+            <td>Giá mới</td>
+            <td>Hình</td>
+            
+        </tr>
+        <script>
+            function F() {
+                $.ajax({
+                    url: './data.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                        $.each(data, function(k, v) {
+                            s = `<tr>
+                                <td>${v.idProduct}</td>
+                                <td>${v.namProduct}</td>
+                                <td>${v.priceOld},000vnd</td>
+                                <td>${v.priceNew},000vnd</td>
+                                <td> <img class="card-img-top" src="./image/${v.img} " width="300" height="400"/></td>   
+                                                           
+                            </tr>`;
+                            $('#table1').append(s);
+                        });
+                    }
+                })
+            }
+        </script>
+    </table>
+    <button class="exportToExcel" style="height: 150px; width: 50%; font-size: 50px;">Chuyển Thành Tệp Excel</button>
+    <script>
+        $(function() {
+            $(".exportToExcel").click(function(e) {
+                var table = $(this).prev('.tableToExcel');
+                if (table && table.length) {
+                    $(table).table2excel({
+                        exclude: ".noExcel",
+                        name: "Excel Document Name",
+                        filename: "Bookstore" + new Date().toISOString() + ".xls",
+                        fileext: ".xls",
+                    });
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

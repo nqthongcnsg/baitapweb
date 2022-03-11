@@ -1,0 +1,38 @@
+<html>
+    <head>
+        <script>
+            var obj ={a:10,b:5};
+            var s=JSON.stringify(obj);
+            
+            console.log(obj,s);
+
+
+            var o2={a:{a1:6,a2:4},b:10};
+            var s2 = JSON.stringify(o2);
+            console.log(o2);
+            console.log(s2);
+           var x1= obj.b;
+           var x2 = o2.a.a1;
+           console.log(x1,x2);
+           var o3={
+               list:[
+                   {id:"01",name:"A",price:5},
+                   {id:"02",name:"B",price:12},
+                   {id:"03",name:"C",price:10}
+
+               ],
+               x:10
+
+           };
+           var x3= o3.list[1].id;
+           console.log(x3);
+           for( i=0;i<3;i++)
+           {
+               if(o3.list[i].price<15){
+                   alert(o3.list[i].name);
+               }
+           }
+
+        </script>
+    </head>
+</html>
